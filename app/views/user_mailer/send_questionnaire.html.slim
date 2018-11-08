@@ -1,0 +1,15 @@
+h2
+  | Hi 
+  = @patient.name
+  | , 
+
+p
+  | Please fill in this questionnaire today: 
+  = link_to @link, @link
+
+p
+  | Thank you very much!
+
+p
+  | - 
+  = @company.name

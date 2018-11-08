@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+      body {
+        width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        line-height: 24px;
+      }
+      p, div, a {
+        font-size: 14px;
+      }
+      p {
+        line-height: 22px;
+      }
+      .btn {
+        display: inline-block;
+        margin: 20px 0;
+        padding: 10px 15px;
+        color: #0366d6;
+        background-color: white;
+        border: 1px solid #0366d6;
+        border-radius: 4px;
+        text-decoration: none;
+      }
+      .btn:hover {
+        transition: 0.3s background-color, 0.3s color;
+        background-color: #0366d6;
+        color: white;
+      }
+      table {
+        border: 1px solid #EEE;
+        border-bottom: 0;
+      }
+      table td {
+        border-bottom: 1px solid #EEE;
+        padding: 8px 10px;
+      }
+      table th {
+        border-bottom: 1px solid #EEE;
+        padding: 8px 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

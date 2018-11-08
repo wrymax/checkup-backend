@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+development:
+  <<: *default
+  database: checkup_development
+  user: wrymax
+  password: '123456'
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  database: checkup 
+  user: root
+  password: checkup123
+  host: checkup.cvdnnxbjerdd.us-west-2.rds.amazonaws.com
+  port: 5432
