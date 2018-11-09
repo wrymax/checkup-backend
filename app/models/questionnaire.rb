@@ -6,11 +6,13 @@ class Questionnaire < ApplicationRecord
   has_many :patients, through: :patient_questionnaires
   has_many :questionnaire_submissions
 
+  accepts_nested_attributes_for :questions
+
   # parse frequency into Rails Time object
   FrequencyMap = {
-    d: 'days', 
-    h: 'hours', 
-    m: 'minutes', 
+    d: 'days',
+    h: 'hours',
+    m: 'minutes',
     s: 'seconds'
   }
   def parse_frequency
@@ -23,7 +25,7 @@ class Questionnaire < ApplicationRecord
       nil
     end
   end
-  
+
   # send questionnaire to registered patients
   def send_out!
     if last_sent_at.blank? || Time.now - last_sent_at >= parse_frequency
