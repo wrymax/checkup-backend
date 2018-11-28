@@ -49,19 +49,6 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "checkup-backend_#{Rails.env}"
-  config.action_mailer.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
-    :user_name => 'workstream',
-    :password => 'sandhill1812',
-    :domain => 'workstream.is',
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
   config.action_mailer.deliver_later_queue_name = 'default'
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {

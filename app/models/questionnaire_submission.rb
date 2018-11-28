@@ -15,12 +15,15 @@ class QuestionnaireSubmission < ApplicationRecord
 
   # send out the link to patient
   def send_out!
-    content = "Hi #{patient.name}, please complete the form today: #{link}. Thanks! -#{questionnaire.company.name}"
+    # content_1 = "Hi #{patient.name}, please complete the form today: #{link}. Thanks! -#{questionnaire.company.name}"
+    content_2 = "#{patient.name}, help your team win! Earn 100 points by answering this survey: #{link}" # or "Team Cancer is pulling ahead. Answer this survey to help your team catch up: #{link}"
     if patient.phone.present?
-      SmsSender.send(to: patient.user.phone, content: content)
+      # SmsSender.send(to: patient.user.phone, content: content_1)
+      # SmsSender.send(to: patient.user.phone, content: content_2)
     end
     if patient.email.present?
-      UserMailer.send_questionnaire(self).deliver
+      # !!!! comment this out because public repo cannot include Sendgrid info
+      # UserMailer.send_questionnaire(self).deliver
     end
   end
 
@@ -31,6 +34,7 @@ class QuestionnaireSubmission < ApplicationRecord
   # patient submits the questionnaire!
   def submit!(params)
     return false if params[:answers].blank?
+    return self if submitted?
 
     # Hard delete for now
     if self.answers.present?
@@ -43,10 +47,16 @@ class QuestionnaireSubmission < ApplicationRecord
     params[:answers].each do |answer|
       self.answers << Answer.new(answer.merge(questionnaire_submission_id: id))
     end
-    self.status = 'submitted'
+    # !!! Temp comment out for demo
+    # self.status = 'submitted'
 
     if save
+      # delete old answers
       self.answers.where("id <= ?", last_id).destroy_all if last_id
+      # patient gets credits
+      patient.add_credits_of(questionnaire)
+      # team gets points
+      patient.team&.add_points_of(questionnaire)
     end
     self
   end

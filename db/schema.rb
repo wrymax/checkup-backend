@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181108195804) do
+ActiveRecord::Schema.define(version: 20181115215006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(version: 20181108195804) do
     t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "team_id"
+    t.float "credits", default: 0.0
+    t.index ["team_id"], name: "index_patients_on_team_id"
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
@@ -70,6 +73,8 @@ ActiveRecord::Schema.define(version: 20181108195804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "last_sent_at"
+    t.float "credits", default: 1.0
+    t.float "points", default: 100.0
     t.index ["company_id"], name: "index_questionnaires_on_company_id"
     t.index ["staff_id"], name: "index_questionnaires_on_staff_id"
   end
@@ -93,6 +98,14 @@ ActiveRecord::Schema.define(version: 20181108195804) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_staffs_on_company_id"
     t.index ["user_id"], name: "index_staffs_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.float "points", default: 0.0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

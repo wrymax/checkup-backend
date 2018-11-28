@@ -2,7 +2,7 @@
 lock "~> 3.11.0"
 
 set :application, "checkup-backend"
-set :repo_url, "git@github.com:PC066/checkup-backend.git"
+set :repo_url, "git@github.com:wrymax/checkup-backend.git"
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

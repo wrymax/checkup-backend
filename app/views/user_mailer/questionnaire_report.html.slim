@@ -1,0 +1,44 @@
+h3 
+  | Questionnaire Report - 
+  = Time.now.to_date
+
+- @report.each_with_index do |q, index|
+  h4
+    = index + 1
+    |. 
+    = q[:company]
+    = " / "
+    | created_at: 
+    = q[:created_at]
+    = " / "
+    | last_sent_at: 
+    = q[:last_sent_at]
+  
+  table
+    thead
+      th
+        | Name
+      th
+        | Status
+      th
+        | Answer
+      th
+        | Sent at
+    tbody
+      - q[:submissions].each do |s|
+        tr
+          td
+            = s[:patient]
+          td
+            = s[:status]
+          td
+            table
+              - s[:answers].each do |a|
+                tr
+                  td
+                    = a[:question]
+                    | : 
+                  td
+                    = a[:answer]
+          td
+            = s[:sent_at]

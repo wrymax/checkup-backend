@@ -1,10 +1,29 @@
-# require 'database_cleaner'
-# DatabaseCleaner.strategy = :truncation
+require 'database_cleaner'
+DatabaseCleaner.strategy = :truncation
 # then, whenever you need to clean the DB
-# puts "clean database..."
-# DatabaseCleaner.clean
+puts "clean database..."
+DatabaseCleaner.clean
 
 # Create seed data
+puts "create team..."
+teams_data = [
+  {
+    name: 'team 1' 
+  }, 
+  {
+    name: 'team 2' 
+  }, 
+  {
+    name: 'team 3' 
+  }, 
+  {
+    name: 'team 4' 
+  }
+]
+teams_data.each do |t|
+  Team.create t
+end
+
 puts "create company..."
 company = Company.create(name: 'Pfizer', description: "A pharmaceutical company")
 users_data = [
@@ -19,9 +38,11 @@ users_data = [
     first_name: 'Max', 
     last_name: 'Wang', 
     phone: '+18482566459', 
+    email: 'max@workstream.is', 
     type: 'Patient', 
     password: '123456', 
-    age: 30
+    age: 30, 
+    team_id: 1
   }, 
   { 
     first_name: 'Apurva', 
@@ -29,7 +50,8 @@ users_data = [
     phone: '+18887770003', 
     type: 'Patient', 
     password: '123456', 
-    age: 26
+    age: 26, 
+    team_id: 1
   }, 
   { 
     first_name: 'Halyna', 
@@ -37,18 +59,19 @@ users_data = [
     phone: '+18887770004', 
     type: 'Patient', 
     password: '123456', 
-    age: 26
+    age: 26, 
+    team_id: 2
   } 
 ]
 
 puts "create users..."
 users_data.each do |u|
-  user = User.create(phone: u[:phone], password: u[:password])
+  user = User.create(phone: u[:phone], password: u[:password], email: u[:email])
   _params = {first_name: u[:first_name], last_name: u[:last_name]}
   if u[:type] == 'Staff'
     _params.merge!(company_id: company.id)
   elsif u[:type] == 'Patient'
-    _params.merge!(age: u[:age])
+    _params.merge!(age: u[:age], team_id: u[:team_id])
   end
 
   user.create_profile(u[:type], _params)
